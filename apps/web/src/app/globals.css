@@ -16,6 +16,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-bevellier);
 
   --animate-fade-in-up: fade-in-up 0.7s ease-out forwards;
   --animate-fade-in: fade-in 0.5s ease-out forwards;

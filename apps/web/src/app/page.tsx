@@ -26,7 +26,6 @@ import PrismaticBurst from "@/components/PrismaticBurst";
 
 /* ─────────────────────────────────────────────
    ArchLens — Landing Page
-   Sharp. Precise. No fluff.
    ───────────────────────────────────────────── */
 
 export default function Home() {
@@ -42,8 +41,8 @@ export default function Home() {
             <div className="flex h-6 w-6 items-center justify-center border border-zinc-700 bg-zinc-900">
               <Network className="h-3.5 w-3.5 text-violet-400" />
             </div>
-            <span className="text-sm font-semibold tracking-tight">
-              ArchLens
+            <span className="font-display text-sm tracking-wide">
+              ARCH-LENS
             </span>
           </a>
 
@@ -75,7 +74,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════
           HERO
           ═══════════════════════════════════════ */}
-      <section className="relative z-10 flex flex-col items-center px-5 pt-20 pb-8 sm:px-8 sm:pt-28 md:pt-36">
+      <section className="relative z-10 flex flex-col items-center px-5 pt-8 pb-8 sm:px-8 sm:pt-10 md:pt-12">
         {/* Prismatic Burst — ambient hero background */}
         <div className="pointer-events-none absolute inset-0 z-0 h-[700px] sm:h-[800px] md:h-[900px] overflow-hidden">
           <div className="absolute inset-0 opacity-50">
@@ -98,23 +97,29 @@ export default function Home() {
           <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#09090b] to-transparent" />
         </div>
 
-        {/* Badge */}
-        <div className="relative z-10 animate-fade-in mb-8 flex items-center gap-2 border border-zinc-800 bg-[#09090b]/60 backdrop-blur-sm px-3 py-1 text-[12px] tracking-wide text-zinc-500 uppercase">
+        {/* Badge — close to navbar */}
+        <div className="relative z-10 animate-fade-in mb-6 flex items-center gap-2 border border-zinc-800 bg-[#09090b]/60 backdrop-blur-sm px-3 py-1 text-[12px] tracking-wide text-zinc-500 uppercase">
           <span className="h-1.5 w-1.5 bg-violet-400" />
           v1.0 — Now Live
         </div>
 
-        {/* Headline */}
-        <h1 className="relative z-10 animate-fade-in-up max-w-3xl text-center text-[2.5rem] font-bold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl lg:text-[4.25rem]">
-          Understand{" "}
-          <span className="text-violet-400">any codebase</span>
-          {" "}in seconds
+        {/* Display Heading — ARCH-LENS */}
+        <h1 className="relative z-10 animate-fade-in-up font-display text-center text-[4rem] leading-[1] tracking-[0.15em] text-zinc-100 sm:text-[6rem] md:text-[7.5rem] lg:text-[9rem]">
+          ARCH-LENS
         </h1>
 
-        {/* Sub */}
+        {/* Subtitle — fully white, one line */}
         <p
-          className="relative z-10 animate-fade-in-up mx-auto mt-5 max-w-xl text-center text-[15px] leading-relaxed text-zinc-400 sm:text-base"
+          className="relative z-10 animate-fade-in-up mt-8 text-center text-lg whitespace-nowrap text-white sm:text-xl md:text-2xl"
           style={{ animationDelay: "0.1s" }}
+        >
+          Understand any codebase in seconds
+        </p>
+
+        {/* Sub-description */}
+        <p
+          className="relative z-10 animate-fade-in-up mx-auto mt-4 max-w-xl text-center text-[14px] leading-relaxed text-zinc-500 sm:text-[15px]"
+          style={{ animationDelay: "0.15s" }}
         >
           Paste a GitHub URL. Get interactive architecture diagrams,
           dependency maps, and AI-driven code explanations — instantly.
@@ -122,8 +127,8 @@ export default function Home() {
 
         {/* CTA Input */}
         <div
-          className="relative z-10 animate-fade-in-up mt-10 w-full max-w-lg"
-          style={{ animationDelay: "0.2s" }}
+          className="relative z-10 animate-fade-in-up mt-8 w-full max-w-lg"
+          style={{ animationDelay: "0.25s" }}
         >
           <div className="flex items-stretch border border-zinc-800 transition-colors focus-within:border-zinc-600">
             <div className="flex flex-1 items-center gap-3 px-4">
@@ -147,7 +152,7 @@ export default function Home() {
 
         {/* ── Hero Mock UI ── */}
         <div
-          className="relative z-10 animate-fade-in-up mt-16 w-full max-w-5xl"
+          className="relative z-10 animate-fade-in-up mt-48 w-full max-w-5xl"
           style={{ animationDelay: "0.35s" }}
         >
           <div className="relative overflow-hidden border border-zinc-800 bg-[#0c0c0f]">
@@ -244,8 +249,8 @@ export default function Home() {
                   <div className="flex h-5 w-5 items-center justify-center border border-zinc-800 bg-zinc-900">
                     <Bot className="h-3 w-3 text-violet-400" />
                   </div>
-                  <span className="text-[11px] font-semibold tracking-wide text-zinc-400 uppercase">
-                    ArchLens AI
+                  <span className="font-display text-[11px] tracking-wider text-zinc-400 uppercase">
+                    ARCH-LENS AI
                   </span>
                   <span className="ml-auto flex items-center gap-1 text-[10px] text-emerald-500">
                     <span className="h-1 w-1 bg-emerald-500 animate-pulse" />
@@ -524,7 +529,7 @@ export default function Home() {
             <div className="flex h-5 w-5 items-center justify-center border border-zinc-800 bg-zinc-900">
               <Network className="h-3 w-3 text-violet-400" />
             </div>
-            <span className="text-[13px] font-medium text-zinc-500">ArchLens</span>
+            <span className="font-display text-[13px] tracking-wider text-zinc-500">ARCH-LENS</span>
           </div>
 
           <div className="flex items-center gap-5 text-[12px] text-zinc-600">
@@ -544,7 +549,7 @@ export default function Home() {
           </div>
         </div>
         <div className="border-t border-zinc-900 py-4 text-center text-[11px] text-zinc-700">
-          &copy; {new Date().getFullYear()} ArchLens. All rights reserved.
+          &copy; {new Date().getFullYear()} <span className="font-display tracking-wider">ARCH-LENS</span>. All rights reserved.
         </div>
       </footer>
     </div>
