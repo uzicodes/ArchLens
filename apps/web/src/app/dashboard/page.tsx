@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import {
     ReactFlow,
     Controls,
@@ -9,33 +9,18 @@ import {
     useNodesState,
     useEdgesState,
     Position,
-    Handle // <-- 1. Imported Handle
+    Handle
 } from '@xyflow/react';
 import dagre from 'dagre';
-import { Shield, Database, Layout, Server, AlertCircle } from 'lucide-react';
+import { Shield, Database, Layout, Server, AlertCircle, Loader2 } from 'lucide-react';
 
 import '@xyflow/react/dist/style.css';
-
-// Mock Data representing an analyzed repository structure
-const initialNodes = [
-    { id: '1', data: { label: 'Next.js Frontend', type: 'frontend' }, position: { x: 0, y: 0 } },
-    { id: '2', data: { label: 'Auth Middleware', type: 'auth' }, position: { x: 0, y: 0 } },
-    { id: '3', data: { label: 'Node.js REST API', type: 'backend' }, position: { x: 0, y: 0 } },
-    { id: '4', data: { label: 'PostgreSQL DB', type: 'database' }, position: { x: 0, y: 0 } },
-];
-
-const initialEdges = [
-    { id: 'e1-2', source: '1', target: '2', animated: true },
-    { id: 'e2-3', source: '2', target: '3' },
-    { id: 'e3-4', source: '3', target: '4' },
-];
 
 // Dagre Graph Auto-Layout Engine Configuration
 const getLayoutedElements = (nodes: any[], edges: any[]) => {
     const dagreGraph = new dagre.graphlib.Graph();
     dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-    // Set layout direction: Top to Bottom (TB)
     dagreGraph.setGraph({ rankdir: 'TB', nodesep: 70, ranksep: 100 });
 
     nodes.forEach((node) => {
@@ -64,7 +49,7 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
     return { nodes: layoutedNodes, edges };
 };
 
-// 2. Updated Node Component with Handles
+// Custom Node Component
 const NodeWrapper = ({ data }: any) => {
     const getIcon = (type: string) => {
         switch (type) {
@@ -78,13 +63,9 @@ const NodeWrapper = ({ data }: any) => {
 
     return (
         <div className="px-4 py-3 bg-slate-900 border border-white/10 rounded-xl shadow-xl flex items-center gap-3 min-w-[180px]">
-            {/* Invisible target handle for incoming edges */}
             <Handle type="target" position={Position.Top} className="!opacity-0" />
-
             {getIcon(data.type)}
             <span className="text-sm font-medium text-slate-200">{data.label}</span>
-
-            {/* Invisible source handle for outgoing edges */}
             <Handle type="source" position={Position.Bottom} className="!opacity-0" />
         </div>
     );
@@ -93,25 +74,62 @@ const NodeWrapper = ({ data }: any) => {
 export default function DashboardPage() {
     const nodeTypes = useMemo(() => ({ default: NodeWrapper }), []);
 
-    const { nodes: layoutedNodes, edges: layoutedEdges } = useMemo(() => {
-        return getLayoutedElements(initialNodes, initialEdges);
-    }, []);
+    // FIX: Added <any> generic types so TypeScript knows these won't stay empty
+    const [nodes, setNodes, onNodesChange] = useNodesState<any>([]);
+    const [edges, setEdges, onEdgesChange] = useEdgesState<any>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const [nodes, , onNodesChange] = useNodesState(layoutedNodes);
-    const [edges, , onEdgesChange] = useEdgesState(layoutedEdges);
+    // Fetch real AST data from the API
+    useEffect(() => {
+        const fetchArchitecture = async () => {
+            try {
+                const response = await fetch('http://localhost:3001/api/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+
+                const json = await response.json();
+
+                if (json.success) {
+                    const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+                        json.data.nodes,
+                        json.data.edges
+                    );
+                    setNodes(layoutedNodes);
+                    setEdges(layoutedEdges);
+                }
+            } catch (error) {
+                console.error('Failed to fetch architecture:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchArchitecture();
+    }, [setNodes, setEdges]);
+
+    if (isLoading) {
+        return (
+            <div className="w-screen h-screen bg-slate-950 flex flex-col items-center justify-center gap-4">
+                <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
+                <p className="text-slate-400 font-medium tracking-wide">Parsing Repository AST...</p>
+            </div>
+        );
+    }
 
     return (
         <div className="w-screen h-screen bg-slate-950 flex">
             <aside className="w-80 h-full border-r border-white/10 bg-slate-900/50 backdrop-blur-md p-6 flex flex-col gap-6 z-10">
                 <div>
                     <h2 className="text-lg font-semibold text-white">ArchLens Analysis</h2>
-                    <p className="text-xs text-slate-400 mt-1">Repository: mock-org/mvp-demo</p>
+                    <p className="text-xs text-slate-400 mt-1">Repository: apps/api/src</p>
                 </div>
 
                 <div className="p-4 bg-white/5 border border-white/5 rounded-xl">
-                    <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400">AI Architecture Summary</h3>
-                    <p className="text-sm text-slate-300 mt-2 leading-relaxed">
-                        This application utilizes a clean, decoupled layered layout architecture. The Next.js client flows traffic directly down into an internal validation micro-module before accessing core database layers.
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400">Status</h3>
+                    <p className="text-sm text-emerald-400 mt-2 flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        Live Graph Rendered
                     </p>
                 </div>
             </aside>
@@ -123,11 +141,10 @@ export default function DashboardPage() {
                     onNodesChange={onNodesChange}
                     onEdgesChange={onEdgesChange}
                     nodeTypes={nodeTypes}
-                    colorMode="dark" // <-- 3. Forces native dark mode styling
+                    colorMode="dark"
                     fitView
                 >
                     <Background variant={BackgroundVariant.Dots} gap={16} size={1} color="#334155" />
-                    {/* 4. Removed the broken custom Tailwind classes */}
                     <Controls />
                 </ReactFlow>
             </main>
