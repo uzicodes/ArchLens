@@ -38,11 +38,15 @@ export default function Home() {
       <nav className="sticky top-0 z-50 border-b border-zinc-800 bg-[#09090b]/90 backdrop-blur-sm">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5 sm:px-8">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2">
-            <div className="flex h-6 w-6 items-center justify-center border border-zinc-700 bg-zinc-900">
-              <Network className="h-3.5 w-3.5 text-violet-400" />
-            </div>
-            <span className="font-display text-sm tracking-wide">
+          <a href="#" className="flex items-center gap-2.5">
+            <Image
+              src="/hero section logo.png"
+              alt="ArchLens Logo"
+              width={28}
+              height={28}
+              className="h-7 w-auto object-contain"
+            />
+            <span className="font-display text-2xl tracking-wide">
               ARCH-LENS
             </span>
           </a>
@@ -53,7 +57,7 @@ export default function Home() {
               <a
                 key={item}
                 href={item === "Docs" ? "#" : `#${item.toLowerCase().replace(/\s/g, "-")}`}
-                className="px-4 py-1.5 text-[13px] text-zinc-500 transition-colors hover:text-zinc-100"
+                className="px-4 py-1.5 text-[13px] text-zinc-500 transition-colors hover:text-[#5BE800]"
               >
                 {item}
               </a>
@@ -62,10 +66,10 @@ export default function Home() {
 
           {/* Auth */}
           <div className="flex items-center gap-2">
-            <button className="hidden cursor-pointer px-3 py-1.5 text-[13px] text-zinc-500 transition-colors hover:text-zinc-100 sm:inline-flex">
+            <button className="hidden cursor-pointer px-3 py-1.5 text-[13px] text-zinc-500 transition-colors hover:text-[#5BE800] sm:inline-flex">
               Sign In
             </button>
-            <button className="cursor-pointer border border-zinc-100 bg-zinc-100 px-4 py-1.5 text-[13px] font-medium text-zinc-950 transition-all hover:bg-transparent hover:text-zinc-100">
+            <button className="cursor-pointer border border-zinc-600 bg-transparent px-4 py-1.5 text-[13px] font-medium text-zinc-100 transition-all hover:border-[#5BE800] hover:bg-[#5BE800] hover:text-black">
               Get Started
             </button>
           </div>
@@ -541,25 +545,29 @@ export default function Home() {
           ═══════════════════════════════════════ */}
       <footer className="relative z-10 border-t border-zinc-800">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-5 py-8 sm:flex-row sm:px-8">
-          <div className="flex items-center gap-2">
-            <div className="flex h-5 w-5 items-center justify-center border border-zinc-800 bg-zinc-900">
-              <Network className="h-3 w-3 text-violet-400" />
-            </div>
-            <span className="font-display text-[13px] tracking-wider text-zinc-500">ARCH-LENS</span>
+          <div className="flex items-center gap-2.5">
+            <Image
+              src="/hero section logo.png"
+              alt="ArchLens Logo"
+              width={24}
+              height={24}
+              className="h-6 w-auto object-contain opacity-75"
+            />
+            <span className="font-display text-xl tracking-wider text-zinc-400">ARCH-LENS</span>
           </div>
 
           <div className="flex items-center gap-5 text-[12px] text-zinc-600">
-            <a href="#" className="transition-colors hover:text-zinc-300">Docs</a>
-            <a href="#" className="transition-colors hover:text-zinc-300">Blog</a>
-            <a href="#" className="transition-colors hover:text-zinc-300">Changelog</a>
-            <a href="#" className="transition-colors hover:text-zinc-300">Privacy</a>
+            <a href="#" className="transition-colors hover:text-[#5BE800]">Docs</a>
+            <a href="#" className="transition-colors hover:text-[#5BE800]">Blog</a>
+            <a href="#" className="transition-colors hover:text-[#5BE800]">Changelog</a>
+            <a href="#" className="transition-colors hover:text-[#5BE800]">Privacy</a>
           </div>
 
           <div className="flex items-center gap-3">
-            <a href="#" className="text-zinc-600 transition-colors hover:text-zinc-300" aria-label="GitHub">
+            <a href="#" className="text-zinc-600 transition-colors hover:text-[#5BE800]" aria-label="GitHub">
               <Code2 className="h-4 w-4" />
             </a>
-            <a href="#" className="text-zinc-600 transition-colors hover:text-zinc-300" aria-label="Community">
+            <a href="#" className="text-zinc-600 transition-colors hover:text-[#5BE800]" aria-label="Community">
               <MessageSquare className="h-4 w-4" />
             </a>
           </div>
