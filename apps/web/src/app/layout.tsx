@@ -21,7 +21,7 @@ const bevellier = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "ArchLens — Software Architecture Discovery",
+  title: "ArchLens - Software Architecture Discovery",
   description:
     "Paste a GitHub URL. Automatically generate interactive architecture diagrams, map dependencies, and get AI-driven code explanations.",
   icons: {
