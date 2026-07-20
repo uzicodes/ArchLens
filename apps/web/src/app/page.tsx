@@ -22,6 +22,7 @@ import {
   Terminal,
   Minus,
 } from "lucide-react";
+import Image from "next/image";
 import PrismaticBurst from "@/components/PrismaticBurst";
 
 /* ─────────────────────────────────────────────
@@ -74,7 +75,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════
           HERO
           ═══════════════════════════════════════ */}
-      <section className="relative z-10 flex flex-col items-center px-5 pt-8 pb-8 sm:px-8 sm:pt-10 md:pt-12">
+      <section className="relative z-10 flex flex-col items-center px-5 pt-2 pb-8 sm:px-8 sm:pt-4 md:pt-6">
         {/* Prismatic Burst — ambient hero background */}
         <div className="pointer-events-none absolute inset-0 z-0 h-[700px] sm:h-[800px] md:h-[900px] overflow-hidden">
           <div className="absolute inset-0 opacity-50">
@@ -99,12 +100,27 @@ export default function Home() {
 
         {/* Badge — close to navbar */}
         <div className="relative z-10 animate-fade-in mb-6 flex items-center gap-2 border border-zinc-800 bg-[#09090b]/60 backdrop-blur-sm px-3 py-1 text-[12px] tracking-wide text-zinc-500 uppercase">
-          <span className="h-1.5 w-1.5 bg-violet-400" />
+          <span className="h-1.5 w-1.5 bg-green-400" />
           v1.0 — Now Live
         </div>
 
+        {/* Hero Logo */}
+        <div
+          className="relative z-10 animate-fade-in-up mb-4 flex justify-center"
+          style={{ animationDelay: "0.05s" }}
+        >
+          <Image
+            src="/hero section logo.png"
+            alt="ArchLens Logo"
+            width={120}
+            height={120}
+            className="h-20 w-auto object-contain sm:h-28"
+            priority
+          />
+        </div>
+
         {/* Display Heading — ARCH-LENS */}
-        <h1 className="relative z-10 animate-fade-in-up font-display text-center text-[4rem] leading-[1] tracking-[0.15em] text-zinc-100 sm:text-[6rem] md:text-[7.5rem] lg:text-[9rem]">
+        <h1 className="relative z-10 animate-fade-in-up font-display text-center text-[4rem] leading-[1] tracking-normal text-zinc-100 sm:text-[6rem] md:text-[7.5rem] lg:text-[9rem]">
           ARCH-LENS
         </h1>
 
@@ -127,7 +143,7 @@ export default function Home() {
 
         {/* CTA Input */}
         <div
-          className="relative z-10 animate-fade-in-up mt-8 w-full max-w-lg"
+          className="relative z-10 animate-fade-in-up mt-16 w-full max-w-lg"
           style={{ animationDelay: "0.25s" }}
         >
           <div className="flex items-stretch border border-zinc-800 transition-colors focus-within:border-zinc-600">
