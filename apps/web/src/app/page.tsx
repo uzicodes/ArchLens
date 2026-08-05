@@ -105,6 +105,9 @@ export default function Home() {
         </div>
       </nav>
 
+      {/* Background square grid light (below Hero section) */}
+      <div className="pointer-events-none absolute inset-x-0 top-[850px] bottom-0 z-0 square-grid opacity-50" />
+
       {/* ═══════════════════════════════════════
           HERO
           ═══════════════════════════════════════ */}
@@ -344,7 +347,7 @@ export default function Home() {
           {/* Grid */}
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[auto_auto]">
             {/* F1 — AI Architecture (large, spans 2 cols + 2 rows) */}
-            <div className="card-hover glow-border group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:bg-[#5BE800]/[0.05] sm:p-8 lg:col-span-2 lg:row-span-2">
+            <div className="card-hover glow-border group rounded-2xl border border-white/[0.06] bg-[#0c0c0f] p-6 transition-all duration-300 hover:bg-[#0e140d] hover:border-[#5BE800]/30 hover:shadow-[0_0_30px_rgba(91,232,0,0.12)] sm:p-8 lg:col-span-2 lg:row-span-2">
               <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-violet-500/20 bg-violet-500/[0.08] icon-glow-violet">
                 <Bot className="h-4.5 w-4.5 text-violet-400" />
               </div>
@@ -357,7 +360,7 @@ export default function Home() {
               </p>
 
               {/* Mock conversation */}
-              <div className="overflow-hidden rounded-xl border border-white/[0.06] bg-[#0c0c0f]/60 backdrop-blur-sm">
+              <div className="overflow-hidden rounded-xl border border-white/[0.06] bg-[#09090b]">
                 <div className="border-b border-white/[0.06] px-4 py-2.5 text-[11px] font-mono text-zinc-600">
                   archlens-ai / conversation
                 </div>
@@ -383,7 +386,7 @@ export default function Home() {
             </div>
 
             {/* F2 — Circular Dependency Detection */}
-            <div className="card-hover glow-border group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:bg-[#5BE800]/[0.05] sm:p-8">
+            <div className="card-hover glow-border group rounded-2xl border border-white/[0.06] bg-[#0c0c0f] p-6 transition-all duration-300 hover:bg-[#0e140d] hover:border-[#5BE800]/30 hover:shadow-[0_0_30px_rgba(91,232,0,0.12)] sm:p-8">
               <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/[0.08] icon-glow-red">
                 <CircleDot className="h-4 w-4 text-red-400" />
               </div>
@@ -411,7 +414,7 @@ export default function Home() {
             </div>
 
             {/* F3 — Technical Debt Scanner */}
-            <div className="card-hover glow-border group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:bg-[#5BE800]/[0.05] sm:p-8">
+            <div className="card-hover glow-border group rounded-2xl border border-white/[0.06] bg-[#0c0c0f] p-6 transition-all duration-300 hover:bg-[#0e140d] hover:border-[#5BE800]/30 hover:shadow-[0_0_30px_rgba(91,232,0,0.12)] sm:p-8">
               <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-amber-500/20 bg-amber-500/[0.08] icon-glow-amber">
                 <TriangleAlert className="h-4 w-4 text-amber-400" />
               </div>
@@ -423,7 +426,7 @@ export default function Home() {
               </p>
 
               {/* Mock metric */}
-              <div className="rounded-xl border border-white/[0.06] bg-[#0c0c0f]/60 p-3.5">
+              <div className="rounded-xl border border-white/[0.06] bg-[#09090b] p-3.5">
                 <div className="mb-2 flex items-baseline justify-between text-[13px]">
                   <span className="text-zinc-500">Risk Score</span>
                   <span className="font-mono font-semibold text-amber-400">72<span className="text-zinc-600">/100</span></span>
@@ -447,7 +450,7 @@ export default function Home() {
           </div>
 
           {/* F4 — Onboarding (full width below grid) */}
-          <div className="card-hover glow-border group mt-4 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:bg-[#5BE800]/[0.05] sm:p-8">
+          <div className="card-hover glow-border group mt-4 rounded-2xl border border-white/[0.06] bg-[#0c0c0f] p-6 transition-all duration-300 hover:bg-[#0e140d] hover:border-[#5BE800]/30 hover:shadow-[0_0_30px_rgba(91,232,0,0.12)] sm:p-8">
             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="max-w-md">
                 <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/[0.08] icon-glow-emerald">
@@ -470,8 +473,8 @@ export default function Home() {
                     key={i}
                     onClick={() => setActiveStep(activeStep === i ? null : i)}
                     className={`flex cursor-pointer items-center gap-2.5 rounded-xl border px-4 py-2.5 transition-all duration-200 ${activeStep === i
-                      ? 'border-indigo-500/40 bg-indigo-500/20 shadow-[0_0_20px_rgba(99,102,241,0.15)]'
-                      : 'border-white/[0.06] bg-slate-900/50 hover:border-white/[0.12] hover:bg-slate-900/70'
+                      ? 'border-indigo-500/40 bg-[#1a1b35] shadow-[0_0_20px_rgba(99,102,241,0.15)]'
+                      : 'border-white/[0.06] bg-[#11131a] hover:border-white/[0.12] hover:bg-[#161a26]'
                       }`}
                   >
                     <span className={`h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-400 shadow-[0_0_6px_rgba(129,140,248,0.6)] transition-opacity duration-200 ${activeStep === i ? 'opacity-100 animate-pulse' : 'opacity-0'}`} />
@@ -535,7 +538,7 @@ export default function Home() {
             ].map(({ Icon, step, title, desc }, i) => (
               <div
                 key={i}
-                className="card-hover glow-border group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 transition-all duration-300 hover:border-[#5BE800]/30 hover:bg-[#5BE800]/[0.06] hover:shadow-[0_0_30px_rgba(91,232,0,0.12)]"
+                className="card-hover glow-border group rounded-2xl border border-white/[0.06] bg-[#0c0c0f] p-8 transition-all duration-300 hover:bg-[#0e140d] hover:border-[#5BE800]/30 hover:shadow-[0_0_30px_rgba(91,232,0,0.12)]"
               >
                 <div className="mb-6 flex items-center justify-between">
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04] transition-all duration-300 group-hover:border-[#5BE800]/40 group-hover:bg-[#5BE800]/10 group-hover:shadow-[0_0_15px_rgba(91,232,0,0.2)]">
@@ -561,7 +564,7 @@ export default function Home() {
           CTA
           ═══════════════════════════════════════ */}
       <section className="relative z-10 px-5 py-20 sm:px-8 sm:py-28">
-        <div className="relative mx-auto max-w-6xl overflow-hidden rounded-3xl border border-white/[0.06] bg-[#0c0c0f]/80 p-10 sm:p-16">
+        <div className="relative mx-auto max-w-6xl overflow-hidden rounded-3xl border border-white/[0.06] bg-[#0c0c0f] p-10 sm:p-16">
           {/* Background glows */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             <div className="absolute left-1/2 top-1/2 h-full w-full min-h-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#5BE800]/10 blur-[120px]" />
