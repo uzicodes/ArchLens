@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import {
   Search,
   GitBranch,
@@ -30,6 +33,35 @@ import PrismaticBurst from "@/components/PrismaticBurst";
    ───────────────────────────────────────────── */
 
 export default function Home() {
+  const [activeStep, setActiveStep] = useState<number | null>(null);
+
+  const onboardingSteps = [
+    {
+      n: '01',
+      label: 'Authentication Layer',
+      description:
+        'Start by reviewing NextAuth configuration, JWT session handling, and protected route middleware.',
+    },
+    {
+      n: '02',
+      label: 'Database Models',
+      description:
+        'Understand the core Prisma schema, entity relationships, and database migration history.',
+    },
+    {
+      n: '03',
+      label: 'Business Logic',
+      description:
+        'Dive into the service layer, payment integrations, and reusable backend utilities.',
+    },
+    {
+      n: '04',
+      label: 'API Endpoints',
+      description:
+        'Review the REST controllers and tRPC routers connecting the frontend to our backend.',
+    },
+  ];
+
   return (
     <div className="relative min-h-screen bg-[#09090b] text-zinc-100 overflow-x-hidden">
       {/* ═══════════════════════════════════════
@@ -427,33 +459,41 @@ export default function Home() {
                 <h3 className="mb-2 text-base font-semibold tracking-tight sm:text-lg">
                   New Developer Onboarding
                 </h3>
-                <p className="text-[13px] leading-relaxed text-zinc-500 sm:text-[14px]">
-                  Generate a guided &ldquo;Start Here&rdquo; path. New team members understand
-                  architecture in minutes, not weeks.
+                <p className="text-[13px] leading-relaxed text-zinc-500 sm:text-[14px] transition-all duration-300">
+                  {activeStep !== null
+                    ? onboardingSteps[activeStep].description
+                    : 'Generate a guided \u201CStart Here\u201D path. New team members understand architecture in minutes, not weeks.'}
                 </p>
               </div>
 
               {/* Onboarding steps */}
-              <div className="flex items-center gap-0 overflow-x-auto">
-                {[
-                  { n: "01", label: "Structure", active: true },
-                  { n: "02", label: "Modules", active: false },
-                  { n: "03", label: "Data Flow", active: false },
-                  { n: "04", label: "Start Coding", active: false },
-                ].map((s, i) => (
-                  <div key={i} className="flex shrink-0 items-center">
-                    <div className={`flex items-center gap-2.5 rounded-xl border px-4 py-2.5 transition-all ${s.active ? "border-violet-500/30 bg-violet-500/[0.06] shadow-[0_0_16px_rgba(167,139,250,0.1)]" : "border-white/[0.06] bg-white/[0.02]"}`}>
-                      <span className={`font-mono text-[11px] ${s.active ? "text-violet-400" : "text-zinc-600"}`}>
-                        {s.n}
-                      </span>
-                      <span className={`text-[13px] whitespace-nowrap ${s.active ? "text-zinc-200" : "text-zinc-500"}`}>
-                        {s.label}
-                      </span>
-                    </div>
-                    {i < 3 && (
-                      <Minus className="h-4 w-6 shrink-0 text-zinc-800" />
-                    )}
-                  </div>
+              <div className="grid grid-cols-2 gap-2.5">
+                {onboardingSteps.map((s, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveStep(activeStep === i ? null : i)}
+                    className={`flex cursor-pointer items-center gap-2.5 rounded-xl border px-4 py-2.5 transition-all duration-200 ${
+                      activeStep === i
+                        ? 'border-indigo-500/40 bg-indigo-500/20 shadow-[0_0_20px_rgba(99,102,241,0.15)]'
+                        : 'border-white/[0.06] bg-slate-900/50 hover:border-white/[0.12] hover:bg-slate-900/70'
+                    }`}
+                  >
+                    <span className={`h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-400 shadow-[0_0_6px_rgba(129,140,248,0.6)] transition-opacity duration-200 ${activeStep === i ? 'opacity-100 animate-pulse' : 'opacity-0'}`} />
+                    <span
+                      className={`font-mono text-[11px] ${
+                        activeStep === i ? 'text-indigo-300' : 'text-zinc-600'
+                      }`}
+                    >
+                      {s.n}
+                    </span>
+                    <span
+                      className={`text-[13px] whitespace-nowrap ${
+                        activeStep === i ? 'text-zinc-100 font-medium' : 'text-slate-300'
+                      }`}
+                    >
+                      {s.label}
+                    </span>
+                  </button>
                 ))}
               </div>
             </div>
