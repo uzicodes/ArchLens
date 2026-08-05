@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Space_Grotesk, Space_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
   subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
 const bevellier = localFont({
@@ -44,10 +45,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${bevellier.variable} h-full antialiased`}
+      className={`${spaceGrotesk.variable} ${spaceMono.variable} ${bevellier.variable} antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

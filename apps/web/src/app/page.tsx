@@ -592,7 +592,7 @@ export default function Home() {
             </a>
           </div>
         </div>
-        <div className="border-t border-white/[0.04] py-4 text-center text-[11px] text-zinc-700">
+        <div className="border-t border-white/[0.04] pt-4 pb-8 sm:pb-12 text-center text-[11px] text-zinc-700">
           &copy; {new Date().getFullYear()} <span className="font-display tracking-wider">ARCH-LENS</span>. All rights reserved.
         </div>
       </footer>
