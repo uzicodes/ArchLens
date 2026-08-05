@@ -29,9 +29,15 @@ void main() {
 }
 `;
 
+// ── Optimized fragment shader ──
+// - Reduced from highp → mediump (decorative effect, precision not needed)
+// - Noise: 5 octaves → 3 octaves
+// - Ray march: 44 iterations → 22 iterations with larger steps
+// - Removed second bend-angle pass (a2) — single distortion is enough
+// - Simplified edge fade (removed noise lookup inside it)
 const fragmentShader = `#version 300 es
-precision highp float;
-precision highp int;
+precision mediump float;
+precision mediump int;
 
 out vec4 fragColor;
 
@@ -61,11 +67,9 @@ float layeredNoise(vec2 fragPx){
     vec2 p = mod(fragPx + vec2(uTime * 30.0, -uTime * 21.0), 1024.0);
     vec2 q = rot30() * p;
     float n = 0.0;
-    n += 0.40 * hash21(q);
-    n += 0.25 * hash21(q * 2.0 + 17.0);
+    n += 0.50 * hash21(q);
+    n += 0.30 * hash21(q * 2.0 + 17.0);
     n += 0.20 * hash21(q * 4.0 + 47.0);
-    n += 0.10 * hash21(q * 8.0 + 113.0);
-    n += 0.05 * hash21(q * 16.0 + 191.0);
     return n;
 }
 
@@ -83,8 +87,7 @@ float edgeFade(vec2 frag, vec2 res, vec2 offset){
     s = pow(s, 1.5);
     float tail = 1.0 - pow(1.0 - s, 2.0);
     s = mix(s, tail, 0.2);
-    float dn = (layeredNoise(frag * 0.15) - 0.5) * 0.0015 * s;
-    return clamp(s + dn, 0.0, 1.0);
+    return clamp(s, 0.0, 1.0);
 }
 
 mat3 rotX(float a){ float c = cos(a), s = sin(a); return mat3(1.0,0.0,0.0, 0.0,c,-s, 0.0,s,c); }
@@ -132,7 +135,8 @@ void main(){
       hoverMat = rotY(ang.y) * rotX(ang.x);
     }
 
-    for (int i = 0; i < 44; ++i) {
+    // 22 iterations instead of 44 — compensated with slightly larger contribution
+    for (int i = 0; i < 22; ++i) {
         vec3 P = marchT * dir;
         P.z -= 2.0;
         float rad = length(P);
@@ -146,14 +150,12 @@ void main(){
       Pl = hoverMat * Pl;
         }
 
-        float stepLen = min(rad - 0.3, n * jitterAmp) + 0.1;
+        float stepLen = min(rad - 0.3, n * jitterAmp) + 0.18;
 
         float grow = smoothstep(0.35, 3.0, marchT);
         float a1 = amp * grow * bendAngle(Pl * 0.6, t);
-        float a2 = 0.5 * amp * grow * bendAngle(Pl.zyx * 0.5 + 3.1, t * 0.9);
         vec3 Pb = Pl;
         Pb.xz = rot2(Pb.xz, a1);
-        Pb.xy = rot2(Pb.xy, a2);
 
         float rayPattern = smoothstep(
             0.5, 0.7,
@@ -178,7 +180,8 @@ void main(){
         float tRay = saw * saw * (3.0 - 2.0 * saw);
         vec3 userGradient = 2.0 * sampleGradient(tRay);
         vec3 spectral = (uColorCount > 0) ? userGradient : spectralDefault;
-        vec3 base = (0.05 / (0.4 + stepLen))
+        // Slightly boosted contribution to compensate for fewer iterations
+        vec3 base = (0.09 / (0.4 + stepLen))
                   * smoothstep(5.0, 0.0, rad)
                   * spectral;
 
@@ -216,6 +219,9 @@ const toPx = (v: number | string | undefined): number => {
   const num = parseFloat(s.replace("px", ""));
   return isNaN(num) ? 0 : num;
 };
+
+// Target ~30fps for the render loop — this ambient effect doesn't need 60fps
+const FRAME_INTERVAL = 1000 / 30;
 
 const PrismaticBurst = ({
   intensity = 2,
@@ -257,7 +263,8 @@ const PrismaticBurst = ({
     const container = containerRef.current;
     if (!container) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // Render at half DPR — the effect is blurred/ambient so lower res looks identical
+    const dpr = Math.min(window.devicePixelRatio || 1, 1);
     const renderer = new Renderer({ dpr, alpha: false, antialias: false });
     rendererRef.current = renderer;
 
@@ -351,16 +358,27 @@ const PrismaticBurst = ({
     let raf = 0;
     let last = performance.now();
     let accumTime = 0;
+    let lastRenderTime = 0;
 
     const update = (now: number) => {
       const dt = Math.max(0, now - last) * 0.001;
       last = now;
       const visible = isVisibleRef.current && !document.hidden;
       if (!pausedRef.current) accumTime += dt;
+
+      // Skip rendering entirely when not visible
       if (!visible) {
         raf = requestAnimationFrame(update);
         return;
       }
+
+      // Throttle to ~30fps — skip frames if we rendered recently
+      if (now - lastRenderTime < FRAME_INTERVAL) {
+        raf = requestAnimationFrame(update);
+        return;
+      }
+      lastRenderTime = now;
+
       const tau =
         0.02 + Math.max(0, Math.min(1, hoverDampRef.current)) * 0.5;
       const alpha = 1 - Math.exp(-dt / tau);
