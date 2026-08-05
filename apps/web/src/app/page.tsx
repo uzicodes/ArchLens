@@ -98,9 +98,6 @@ export default function Home() {
 
           {/* Auth */}
           <div className="flex items-center gap-3">
-            <button className="hidden cursor-pointer px-3 py-1.5 text-[13px] text-zinc-500 transition-colors hover:text-[#5BE800] sm:inline-flex">
-              Sign In
-            </button>
             <button className="btn-shimmer cursor-pointer rounded-full border border-zinc-600 bg-transparent px-5 py-1.5 text-[13px] font-medium text-zinc-100 transition-all hover:border-[#5BE800] hover:bg-[#5BE800] hover:text-black hover:shadow-[0_0_20px_rgba(91,232,0,0.2)]">
               Get Started
             </button>
@@ -139,9 +136,9 @@ export default function Home() {
         <div className="ambient-glow absolute right-1/4 top-[300px] h-[200px] w-[200px] bg-indigo-500/15" style={{ animationDelay: "1.5s" }} />
 
         {/* Badge — pill shape */}
-        <div className="relative z-10 animate-fade-in mb-6 flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] backdrop-blur-md px-4 py-1.5 text-[12px] tracking-wide text-zinc-400 uppercase shadow-[0_0_20px_rgba(167,139,250,0.06)]">
-          <span className="h-1.5 w-1.5 rounded-full bg-green-400 shadow-[0_0_6px_rgba(74,222,128,0.5)]" />
-          v1.0 — Now Live
+        <div className="relative z-10 animate-fade-in mb-6 flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] backdrop-blur-md px-3 py-1 text-[10px] tracking-wide text-zinc-400 uppercase shadow-[0_0_20px_rgba(167,139,250,0.06)]">
+          <span className="h-1 w-1 rounded-full bg-green-400 shadow-[0_0_6px_rgba(74,222,128,0.5)]" />
+          v1.0 — Live
         </div>
 
         {/* Hero Logo */}
@@ -166,7 +163,7 @@ export default function Home() {
 
         {/* Subtitle — #FF4601 color */}
         <p
-          className="relative z-10 animate-fade-in-up mt-8 text-center text-lg whitespace-nowrap text-[#FF4601] sm:text-xl md:text-2xl font-medium"
+          className="relative z-10 animate-fade-in-up mt-2 text-center text-lg whitespace-nowrap text-[#FF4601] sm:text-xl md:text-2xl font-medium"
           style={{ animationDelay: "0.1s" }}
         >
           understand any codebase in seconds
@@ -183,7 +180,7 @@ export default function Home() {
 
         {/* CTA Input */}
         <div
-          className="relative z-10 animate-fade-in-up mt-16 w-full max-w-lg"
+          className="relative z-10 animate-fade-in-up mt-20 w-full max-w-lg"
           style={{ animationDelay: "0.25s" }}
         >
           <div className="input-glow flex items-stretch rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-md transition-all duration-300">
@@ -472,24 +469,21 @@ export default function Home() {
                   <button
                     key={i}
                     onClick={() => setActiveStep(activeStep === i ? null : i)}
-                    className={`flex cursor-pointer items-center gap-2.5 rounded-xl border px-4 py-2.5 transition-all duration-200 ${
-                      activeStep === i
-                        ? 'border-indigo-500/40 bg-indigo-500/20 shadow-[0_0_20px_rgba(99,102,241,0.15)]'
-                        : 'border-white/[0.06] bg-slate-900/50 hover:border-white/[0.12] hover:bg-slate-900/70'
-                    }`}
+                    className={`flex cursor-pointer items-center gap-2.5 rounded-xl border px-4 py-2.5 transition-all duration-200 ${activeStep === i
+                      ? 'border-indigo-500/40 bg-indigo-500/20 shadow-[0_0_20px_rgba(99,102,241,0.15)]'
+                      : 'border-white/[0.06] bg-slate-900/50 hover:border-white/[0.12] hover:bg-slate-900/70'
+                      }`}
                   >
                     <span className={`h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-400 shadow-[0_0_6px_rgba(129,140,248,0.6)] transition-opacity duration-200 ${activeStep === i ? 'opacity-100 animate-pulse' : 'opacity-0'}`} />
                     <span
-                      className={`font-mono text-[11px] ${
-                        activeStep === i ? 'text-indigo-300' : 'text-zinc-600'
-                      }`}
+                      className={`font-mono text-[11px] ${activeStep === i ? 'text-indigo-300' : 'text-zinc-600'
+                        }`}
                     >
                       {s.n}
                     </span>
                     <span
-                      className={`text-[13px] whitespace-nowrap ${
-                        activeStep === i ? 'text-zinc-100 font-medium' : 'text-slate-300'
-                      }`}
+                      className={`text-[13px] whitespace-nowrap ${activeStep === i ? 'text-zinc-100 font-medium' : 'text-slate-300'
+                        }`}
                     >
                       {s.label}
                     </span>
@@ -521,44 +515,41 @@ export default function Home() {
           <div className="stagger grid gap-4 md:grid-cols-3">
             {[
               {
-                icon: <GitBranch className="h-4.5 w-4.5 text-zinc-300" />,
+                Icon: GitBranch,
                 step: "01",
                 title: "Ingest",
                 desc: "Connect any GitHub repository. We clone and index your entire codebase securely in seconds.",
-                glowClass: "",
               },
               {
-                icon: <Terminal className="h-4.5 w-4.5 text-zinc-300" />,
+                Icon: Terminal,
                 step: "02",
                 title: "Analyze",
                 desc: "AI parses AST structures, maps dependency graphs, and identifies architectural patterns automatically.",
-                glowClass: "",
               },
               {
-                icon: <Network className="h-4.5 w-4.5 text-zinc-300" />,
+                Icon: Network,
                 step: "03",
                 title: "Discover",
                 desc: "Explore an interactive canvas with architecture diagrams, AI explanations, and collaboration tools.",
-                glowClass: "",
               },
-            ].map((item, i) => (
+            ].map(({ Icon, step, title, desc }, i) => (
               <div
                 key={i}
-                className="card-hover glow-border group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 transition-all hover:bg-[#5BE800]/[0.05]"
+                className="card-hover glow-border group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 transition-all duration-300 hover:border-[#5BE800]/30 hover:bg-[#5BE800]/[0.06] hover:shadow-[0_0_30px_rgba(91,232,0,0.12)]"
               >
                 <div className="mb-6 flex items-center justify-between">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04] transition-colors group-hover:border-white/[0.12] group-hover:bg-white/[0.06]">
-                    {item.icon}
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04] transition-all duration-300 group-hover:border-[#5BE800]/40 group-hover:bg-[#5BE800]/10 group-hover:shadow-[0_0_15px_rgba(91,232,0,0.2)]">
+                    <Icon className="h-4.5 w-4.5 text-zinc-300 transition-colors duration-300 group-hover:text-[#5BE800]" />
                   </div>
-                  <span className="rounded-full bg-white/[0.04] px-2.5 py-0.5 font-mono text-[12px] text-zinc-600">
-                    {item.step}
+                  <span className="rounded-full bg-white/[0.04] px-2.5 py-0.5 font-mono text-[12px] text-zinc-600 transition-all duration-300 group-hover:bg-[#5BE800]/10 group-hover:text-[#5BE800]">
+                    {step}
                   </span>
                 </div>
-                <h3 className="mb-2 text-lg font-semibold tracking-tight">
-                  {item.title}
+                <h3 className="mb-2 text-lg font-semibold tracking-tight text-zinc-100 transition-colors duration-300 group-hover:text-[#5BE800]">
+                  {title}
                 </h3>
-                <p className="text-[13px] leading-relaxed text-zinc-500">
-                  {item.desc}
+                <p className="text-[13px] leading-relaxed text-zinc-500 transition-colors duration-300 group-hover:text-zinc-400">
+                  {desc}
                 </p>
               </div>
             ))}
