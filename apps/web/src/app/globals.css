@@ -41,6 +41,10 @@ body {
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
 }
 
+h2 {
+  color: #FF4601;
+}
+
 /* ─── Keyframes ─── */
 
 @keyframes fade-in-up {

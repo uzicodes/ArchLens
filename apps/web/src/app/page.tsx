@@ -81,7 +81,7 @@ export default function Home() {
           ═══════════════════════════════════════ */}
       <section className="relative z-10 flex flex-col items-center px-5 pt-2 pb-8 sm:px-8 sm:pt-4 md:pt-6">
         {/* Prismatic Burst — ambient hero background */}
-        <div className="pointer-events-none absolute inset-0 z-0 h-[700px] sm:h-[800px] md:h-[900px] overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 z-0 h-[700px] sm:h-[800px] md:h-[900px] overflow-hidden transform-gpu" style={{ willChange: "transform", transform: "translateZ(0)" }}>
           <div className="absolute inset-0 opacity-50">
             <PrismaticBurst
               animationType="rotate3d"
@@ -97,9 +97,9 @@ export default function Home() {
             />
           </div>
           {/* Bottom fade to black */}
-          <div className="absolute inset-x-0 bottom-0 h-60 bg-gradient-to-t from-[#09090b] to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-60 bg-gradient-to-t from-[#09090b] to-transparent transform-gpu" style={{ transform: "translateZ(0)" }} />
           {/* Top subtle fade */}
-          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#09090b] to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#09090b] to-transparent transform-gpu" style={{ transform: "translateZ(0)" }} />
         </div>
 
         {/* Ambient glow orbs */}
@@ -132,12 +132,12 @@ export default function Home() {
           ARCH-LENS
         </h1>
 
-        {/* Subtitle — fully white, one line */}
+        {/* Subtitle — #FF4601 color */}
         <p
-          className="relative z-10 animate-fade-in-up mt-8 text-center text-lg whitespace-nowrap text-white sm:text-xl md:text-2xl"
+          className="relative z-10 animate-fade-in-up mt-8 text-center text-lg whitespace-nowrap text-[#FF4601] sm:text-xl md:text-2xl font-medium"
           style={{ animationDelay: "0.1s" }}
         >
-          Understand any codebase in seconds
+          understand any codebase in seconds
         </p>
 
         {/* Sub-description */}
@@ -179,7 +179,7 @@ export default function Home() {
           className="relative z-10 animate-fade-in-up mt-20 w-full max-w-5xl"
           style={{ animationDelay: "0.35s" }}
         >
-          <div className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0c0c0f]/80 backdrop-blur-sm shadow-[0_8px_60px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.03)]">
+          <div className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0c0c0f]/80 backdrop-blur-sm shadow-[0_8px_60px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.03)] transform-gpu" style={{ willChange: "transform", transform: "translateZ(0)" }}>
             {/* Title bar */}
             <div className="flex items-center justify-between border-b border-white/[0.06] px-5 py-3">
               <div className="flex items-center gap-3">
