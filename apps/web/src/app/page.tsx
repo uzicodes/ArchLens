@@ -212,15 +212,15 @@ export default function Home() {
 
               {/* SVG Lines */}
               <svg className="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
-                <line x1="22%" y1="32%" x2="50%" y2="28%" stroke="#3f3f46" strokeWidth="1" strokeDasharray="200" className="animate-draw-line" style={{ animationDelay: "0.6s" }} />
-                <line x1="52%" y1="35%" x2="76%" y2="52%" stroke="#3f3f46" strokeWidth="1" strokeDasharray="200" className="animate-draw-line" style={{ animationDelay: "0.8s" }} />
-                <line x1="22%" y1="40%" x2="36%" y2="72%" stroke="#3f3f46" strokeWidth="1" strokeDasharray="200" className="animate-draw-line" style={{ animationDelay: "1.0s" }} />
-                <line x1="76%" y1="58%" x2="44%" y2="74%" stroke="#3f3f46" strokeWidth="1" strokeDasharray="200" className="animate-draw-line" style={{ animationDelay: "1.2s" }} />
+                <line x1="20%" y1="28%" x2="50%" y2="22%" stroke="#3f3f46" strokeWidth="1.5" strokeDasharray="1000" strokeDashoffset="1000" className="animate-draw-line" style={{ animationDelay: "0.6s" }} />
+                <line x1="50%" y1="22%" x2="75%" y2="45%" stroke="#3f3f46" strokeWidth="1.5" strokeDasharray="1000" strokeDashoffset="1000" className="animate-draw-line" style={{ animationDelay: "0.8s" }} />
+                <line x1="20%" y1="28%" x2="35%" y2="70%" stroke="#3f3f46" strokeWidth="1.5" strokeDasharray="1000" strokeDashoffset="1000" className="animate-draw-line" style={{ animationDelay: "1.0s" }} />
+                <line x1="35%" y1="70%" x2="75%" y2="45%" stroke="#3f3f46" strokeWidth="1.5" strokeDasharray="1000" strokeDashoffset="1000" className="animate-draw-line" style={{ animationDelay: "1.2s" }} />
               </svg>
 
               {/* Nodes */}
-              <div className="absolute left-[8%] top-[18%] animate-node-appear" style={{ animationDelay: "0.4s" }}>
-                <div className="flex items-center gap-2.5 rounded-xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-md px-3.5 py-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+              <div className="absolute -translate-x-1/2 -translate-y-1/2 animate-node-appear" style={{ left: "20%", top: "28%", animationDelay: "0.4s" }}>
+                <div className="flex items-center gap-2.5 rounded-xl border border-white/[0.08] bg-[#121214] px-3.5 py-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.3)] relative z-20">
                   <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-violet-500/20 bg-violet-500/[0.08] icon-glow-violet">
                     <Layers className="h-3.5 w-3.5 text-violet-400" />
                   </div>
@@ -231,8 +231,8 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="absolute left-[38%] top-[14%] animate-node-appear sm:left-[42%]" style={{ animationDelay: "0.5s" }}>
-                <div className="flex items-center gap-2.5 rounded-xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-md px-3.5 py-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+              <div className="absolute -translate-x-1/2 -translate-y-1/2 animate-node-appear" style={{ left: "50%", top: "22%", animationDelay: "0.5s" }}>
+                <div className="flex items-center gap-2.5 rounded-xl border border-white/[0.08] bg-[#121214] px-3.5 py-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.3)] relative z-20">
                   <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-emerald-500/20 bg-emerald-500/[0.08] icon-glow-emerald">
                     <ShieldAlert className="h-3.5 w-3.5 text-emerald-400" />
                   </div>
@@ -243,8 +243,8 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="absolute right-[8%] top-[40%] animate-node-appear sm:right-[14%]" style={{ animationDelay: "0.6s" }}>
-                <div className="flex items-center gap-2.5 rounded-xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-md px-3.5 py-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+              <div className="absolute -translate-x-1/2 -translate-y-1/2 animate-node-appear" style={{ left: "75%", top: "45%", animationDelay: "0.6s" }}>
+                <div className="flex items-center gap-2.5 rounded-xl border border-white/[0.08] bg-[#121214] px-3.5 py-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.3)] relative z-20">
                   <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-amber-500/20 bg-amber-500/[0.08] icon-glow-amber">
                     <Zap className="h-3.5 w-3.5 text-amber-400" />
                   </div>
@@ -255,8 +255,8 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="absolute bottom-[12%] left-[26%] animate-node-appear sm:left-[30%]" style={{ animationDelay: "0.7s" }}>
-                <div className="flex items-center gap-2.5 rounded-xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-md px-3.5 py-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+              <div className="absolute -translate-x-1/2 -translate-y-1/2 animate-node-appear" style={{ left: "35%", top: "70%", animationDelay: "0.7s" }}>
+                <div className="flex items-center gap-2.5 rounded-xl border border-white/[0.08] bg-[#121214] px-3.5 py-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.3)] relative z-20">
                   <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-blue-500/20 bg-blue-500/[0.08] icon-glow-blue">
                     <Cpu className="h-3.5 w-3.5 text-blue-400" />
                   </div>
@@ -315,7 +315,7 @@ export default function Home() {
           {/* Grid */}
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[auto_auto]">
             {/* F1 — AI Architecture (large, spans 2 cols + 2 rows) */}
-            <div className="card-hover glow-border group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:bg-white/[0.04] sm:p-8 lg:col-span-2 lg:row-span-2">
+            <div className="card-hover glow-border group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:bg-[#5BE800]/[0.05] sm:p-8 lg:col-span-2 lg:row-span-2">
               <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-violet-500/20 bg-violet-500/[0.08] icon-glow-violet">
                 <Bot className="h-4.5 w-4.5 text-violet-400" />
               </div>
@@ -354,7 +354,7 @@ export default function Home() {
             </div>
 
             {/* F2 — Circular Dependency Detection */}
-            <div className="card-hover glow-border group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:bg-white/[0.04] sm:p-8">
+            <div className="card-hover glow-border group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:bg-[#5BE800]/[0.05] sm:p-8">
               <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/[0.08] icon-glow-red">
                 <CircleDot className="h-4 w-4 text-red-400" />
               </div>
@@ -382,7 +382,7 @@ export default function Home() {
             </div>
 
             {/* F3 — Technical Debt Scanner */}
-            <div className="card-hover glow-border group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:bg-white/[0.04] sm:p-8">
+            <div className="card-hover glow-border group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:bg-[#5BE800]/[0.05] sm:p-8">
               <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-amber-500/20 bg-amber-500/[0.08] icon-glow-amber">
                 <TriangleAlert className="h-4 w-4 text-amber-400" />
               </div>
@@ -418,7 +418,7 @@ export default function Home() {
           </div>
 
           {/* F4 — Onboarding (full width below grid) */}
-          <div className="card-hover glow-border group mt-4 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:bg-white/[0.04] sm:p-8">
+          <div className="card-hover glow-border group mt-4 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all hover:bg-[#5BE800]/[0.05] sm:p-8">
             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="max-w-md">
                 <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/[0.08] icon-glow-emerald">
@@ -504,7 +504,7 @@ export default function Home() {
             ].map((item, i) => (
               <div
                 key={i}
-                className="card-hover glow-border group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 transition-all hover:bg-white/[0.04]"
+                className="card-hover glow-border group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 transition-all hover:bg-[#5BE800]/[0.05]"
               >
                 <div className="mb-6 flex items-center justify-between">
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04] transition-colors group-hover:border-white/[0.12] group-hover:bg-white/[0.06]">
@@ -532,9 +532,8 @@ export default function Home() {
       <section className="relative z-10 px-5 py-20 sm:px-8 sm:py-28">
         <div className="relative mx-auto max-w-6xl overflow-hidden rounded-3xl border border-white/[0.06] bg-[#0c0c0f]/80 p-10 sm:p-16">
           {/* Background glows */}
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute left-1/2 top-0 h-[300px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-600/10 blur-[100px]" />
-            <div className="absolute right-0 bottom-0 h-[200px] w-[300px] translate-x-1/4 translate-y-1/4 rounded-full bg-indigo-500/10 blur-[80px]" />
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <div className="absolute left-1/2 top-1/2 h-full w-full min-h-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#5BE800]/10 blur-[120px]" />
           </div>
 
           <div className="relative mx-auto max-w-lg text-center">
@@ -545,7 +544,7 @@ export default function Home() {
               Join teams who ship faster by understanding architecture first.
             </p>
             <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <button className="btn-shimmer w-full cursor-pointer rounded-xl bg-gradient-to-r from-violet-500 to-indigo-500 px-7 py-3 text-[13px] font-semibold text-white transition-all hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] hover:brightness-110 sm:w-auto">
+              <button className="btn-shimmer w-full cursor-pointer rounded-xl bg-gradient-to-r from-[#5BE800] to-emerald-500 px-7 py-3 text-[13px] font-semibold text-zinc-950 transition-all hover:shadow-[0_0_30px_rgba(91,232,0,0.3)] hover:brightness-110 sm:w-auto">
                 Get Started — Free
               </button>
               <button className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.03] px-7 py-3 text-[13px] font-medium text-zinc-400 backdrop-blur-sm transition-all hover:border-white/[0.15] hover:bg-white/[0.05] hover:text-zinc-200 sm:w-auto">

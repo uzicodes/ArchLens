@@ -155,7 +155,7 @@ html {
 .card-hover:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
-              0 0 0 1px rgba(167, 139, 250, 0.08);
+              0 0 0 1px rgba(91, 232, 0, 0.3);
 }
 
 /* ─── Glow border on hover ─── */
@@ -164,8 +164,8 @@ html {
   transition: box-shadow 0.3s ease;
 }
 .glow-border:hover {
-  box-shadow: 0 0 20px rgba(167, 139, 250, 0.15),
-              0 0 40px rgba(167, 139, 250, 0.05);
+  box-shadow: 0 0 20px rgba(91, 232, 0, 0.15),
+              0 0 40px rgba(91, 232, 0, 0.05);
 }
 
 /* ─── Icon glow utilities ─── */
