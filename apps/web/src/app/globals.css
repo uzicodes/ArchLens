@@ -9,6 +9,14 @@
   --muted: #71717a;
   --surface: #0f0f12;
   --surface-raised: #18181b;
+
+  /* Radius tokens */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
 }
 
 @theme inline {
@@ -22,6 +30,9 @@
   --animate-fade-in: fade-in 0.5s ease-out forwards;
   --animate-draw-line: draw-line 1.8s ease-in-out forwards;
   --animate-node-appear: node-appear 0.5s ease-out forwards;
+  --animate-shimmer: shimmer 2.5s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-glow-pulse: glow-pulse 3s ease-in-out infinite;
 }
 
 body {
@@ -52,6 +63,32 @@ body {
   to { opacity: 1; transform: scale(1); }
 }
 
+@keyframes shimmer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes border-glow {
+  0%, 100% { border-color: rgba(167, 139, 250, 0.2); }
+  50% { border-color: rgba(167, 139, 250, 0.5); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 /* ─── Smooth scroll ─── */
 html {
   scroll-behavior: smooth;
@@ -66,7 +103,7 @@ html {
 }
 ::-webkit-scrollbar-thumb {
   background: #27272a;
-  border-radius: 0;
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #3f3f46;
@@ -92,4 +129,148 @@ html {
 .dot-grid {
   background-image: radial-gradient(circle, #27272a 1px, transparent 1px);
   background-size: 20px 20px;
+}
+
+/* ─── Glassmorphism utility ─── */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ─── Card hover elevation ─── */
+.card-hover {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+              0 0 0 1px rgba(167, 139, 250, 0.08);
+}
+
+/* ─── Glow border on hover ─── */
+.glow-border {
+  position: relative;
+  transition: box-shadow 0.3s ease;
+}
+.glow-border:hover {
+  box-shadow: 0 0 20px rgba(167, 139, 250, 0.15),
+              0 0 40px rgba(167, 139, 250, 0.05);
+}
+
+/* ─── Icon glow utilities ─── */
+.icon-glow-violet {
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.2),
+              inset 0 0 8px rgba(167, 139, 250, 0.05);
+}
+.icon-glow-emerald {
+  box-shadow: 0 0 12px rgba(52, 211, 153, 0.2),
+              inset 0 0 8px rgba(52, 211, 153, 0.05);
+}
+.icon-glow-red {
+  box-shadow: 0 0 12px rgba(248, 113, 113, 0.2),
+              inset 0 0 8px rgba(248, 113, 113, 0.05);
+}
+.icon-glow-amber {
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.2),
+              inset 0 0 8px rgba(251, 191, 36, 0.05);
+}
+.icon-glow-blue {
+  box-shadow: 0 0 12px rgba(96, 165, 250, 0.2),
+              inset 0 0 8px rgba(96, 165, 250, 0.05);
+}
+
+/* ─── Gradient border wrapper ─── */
+.gradient-border {
+  position: relative;
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.15), rgba(99, 102, 241, 0.1), rgba(124, 58, 237, 0.15));
+  padding: 1px;
+  border-radius: var(--radius-xl);
+}
+.gradient-border > * {
+  border-radius: calc(var(--radius-xl) - 1px);
+}
+
+/* ─── Focus glow for inputs ─── */
+.input-glow:focus-within {
+  box-shadow: 0 0 20px rgba(167, 139, 250, 0.12),
+              0 0 40px rgba(124, 58, 237, 0.06);
+  border-color: rgba(167, 139, 250, 0.4);
+}
+
+/* ─── Shimmer button ─── */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+.btn-shimmer:hover::after {
+  left: 100%;
+}
+
+/* ─── Ambient glow orbs ─── */
+.ambient-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* ─── Nav link underline animation ─── */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background: #5BE800;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+.nav-link:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* ─── Step connector line (How It Works) ─── */
+.step-connector {
+  position: relative;
+}
+.step-connector::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.2), rgba(52, 211, 153, 0.2), transparent);
+  z-index: 0;
 }
