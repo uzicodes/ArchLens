@@ -44,7 +44,7 @@ export default function Home() {
     e?.preventDefault();
     if (!repoUrl.trim()) return;
     setIsNavigating(true);
-    router.push('/dashboard');
+    router.push(`/dashboard?repo=${encodeURIComponent(repoUrl)}`);
   };
 
   const onboardingSteps = [

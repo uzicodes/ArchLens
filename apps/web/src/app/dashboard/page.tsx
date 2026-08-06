@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import {
     ReactFlow,
     Controls,
@@ -71,8 +72,10 @@ const NodeWrapper = ({ data }: any) => {
     );
 };
 
-export default function DashboardPage() {
+function DashboardContent() {
     const nodeTypes = useMemo(() => ({ default: NodeWrapper }), []);
+    const searchParams = useSearchParams();
+    const repoUrl = searchParams.get('repo');
 
     // FIX: Added <any> generic types so TypeScript knows these won't stay empty
     const [nodes, setNodes, onNodesChange] = useNodesState<any>([]);
@@ -82,10 +85,16 @@ export default function DashboardPage() {
     // Fetch real AST data from the API
     useEffect(() => {
         const fetchArchitecture = async () => {
+            if (!repoUrl) {
+                setIsLoading(false);
+                return;
+            }
+
             try {
                 const response = await fetch('http://localhost:3001/api/analyze', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ repoUrl })
                 });
 
                 const json = await response.json();
@@ -106,7 +115,7 @@ export default function DashboardPage() {
         };
 
         fetchArchitecture();
-    }, [setNodes, setEdges]);
+    }, [repoUrl, setNodes, setEdges]);
 
     if (isLoading) {
         return (
@@ -122,7 +131,7 @@ export default function DashboardPage() {
             <aside className="w-80 h-full border-r border-white/10 bg-slate-900/50 backdrop-blur-md p-6 flex flex-col gap-6 z-10">
                 <div>
                     <h2 className="text-lg font-semibold text-white">ArchLens Analysis</h2>
-                    <p className="text-xs text-slate-400 mt-1">Repository: apps/api/src</p>
+                    <p className="text-xs text-slate-400 mt-1 truncate" title={repoUrl || ''}>Repository: {repoUrl || 'None Provided'}</p>
                 </div>
 
                 <div className="p-4 bg-white/5 border border-white/5 rounded-xl">
@@ -149,5 +158,18 @@ export default function DashboardPage() {
                 </ReactFlow>
             </main>
         </div>
+    );
+}
+
+export default function DashboardPage() {
+    return (
+        <Suspense fallback={
+            <div className="w-screen h-screen bg-slate-950 flex flex-col items-center justify-center gap-4">
+                <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
+                <p className="text-slate-400 font-medium tracking-wide">Loading Dashboard...</p>
+            </div>
+        }>
+            <DashboardContent />
+        </Suspense>
     );
 }

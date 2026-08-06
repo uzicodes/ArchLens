@@ -1,17 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import { ASTAnalyzer } from './analyzer/parser';
-// Keeping existing imports as requested
-// @ts-ignore (ignoring if not yet created by user)
-import { generateArchitectureSummary } from './analyzer/ai';
-import dotenv from 'dotenv';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as os from 'os';
 import { execSync } from 'child_process';
 import { v4 as uuidv4 } from 'uuid';
-import rimraf from 'rimraf';
-
-dotenv.config();
+import { sync as rimrafSync } from 'rimraf';
 
 const app = express();
 
@@ -27,11 +22,7 @@ app.post('/api/analyze', async (req, res) => {
         return res.status(400).json({ success: false, error: 'Valid repoUrl string is required' });
     }
 
-    const tempDir = path.join(__dirname, '../tmp');
-    if (!fs.existsSync(tempDir)) {
-        fs.mkdirSync(tempDir, { recursive: true });
-    }
-
+    const tempDir = os.tmpdir();
     const tempPath = path.join(tempDir, uuidv4());
 
     try {
@@ -44,21 +35,10 @@ app.post('/api/analyze', async (req, res) => {
         const analyzer = new ASTAnalyzer(tempPath);
         const result = analyzer.analyze();
 
-        console.log('Generating AI summary...');
-        let aiSummary = "Summary generation failed or not implemented.";
-        try {
-            // @ts-ignore
-            if (typeof generateArchitectureSummary === 'function') {
-                aiSummary = await generateArchitectureSummary(result);
-            }
-        } catch (aiError) {
-            console.error('AI summary generation failed:', aiError);
-        }
-
         res.status(200).json({
             success: true,
             data: result,
-            summary: aiSummary
+            summary: "AI integration pending. Repository successfully cloned and mapped!"
         });
     } catch (error) {
         console.error('Analysis failed:', error);
@@ -66,7 +46,7 @@ app.post('/api/analyze', async (req, res) => {
     } finally {
         console.log(`Cleaning up temporary directory: ${tempPath}`);
         try {
-            rimraf.sync(tempPath);
+            rimrafSync(tempPath);
         } catch (cleanupError) {
             console.error(`Failed to clean up ${tempPath}:`, cleanupError);
         }
