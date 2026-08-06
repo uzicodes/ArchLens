@@ -1,8 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Search,
+  Loader2,
   GitBranch,
   Zap,
   Bot,
@@ -33,7 +35,17 @@ import PrismaticBurst from "@/components/PrismaticBurst";
    ───────────────────────────────────────────── */
 
 export default function Home() {
+  const router = useRouter();
   const [activeStep, setActiveStep] = useState<number | null>(null);
+  const [repoUrl, setRepoUrl] = useState('');
+  const [isNavigating, setIsNavigating] = useState(false);
+
+  const handleAnalyze = (e?: React.FormEvent) => {
+    e?.preventDefault();
+    if (!repoUrl.trim()) return;
+    setIsNavigating(true);
+    router.push('/dashboard');
+  };
 
   const onboardingSteps = [
     {
@@ -186,21 +198,39 @@ export default function Home() {
           className="relative z-10 animate-fade-in-up mt-20 w-full max-w-lg"
           style={{ animationDelay: "0.25s" }}
         >
-          <div className="input-glow flex items-stretch rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-md transition-all duration-300">
+          <form
+            onSubmit={handleAnalyze}
+            className="input-glow flex items-stretch rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-md transition-all duration-300"
+          >
             <div className="flex flex-1 items-center gap-3 px-5">
               <Code2 className="h-4 w-4 shrink-0 text-zinc-600" />
               <input
                 type="text"
+                value={repoUrl}
+                onChange={(e) => setRepoUrl(e.target.value)}
                 placeholder="github.com/your-org/repo"
                 className="min-w-0 flex-1 bg-transparent py-3.5 text-[14px] text-zinc-300 placeholder-zinc-600 outline-none"
-                readOnly
+                disabled={isNavigating}
               />
             </div>
-            <button className="btn-shimmer flex shrink-0 cursor-pointer items-center gap-2 rounded-r-2xl border-l border-white/[0.06] bg-gradient-to-r from-zinc-100 to-white px-6 text-[13px] font-semibold text-zinc-950 transition-all hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]">
-              <Search className="h-3.5 w-3.5" />
-              Analyze
+            <button
+              type="submit"
+              disabled={isNavigating || !repoUrl.trim()}
+              className="btn-shimmer flex shrink-0 cursor-pointer items-center gap-2 rounded-r-2xl border-l border-white/[0.06] bg-gradient-to-r from-zinc-100 to-white px-6 text-[13px] font-semibold text-zinc-950 transition-all hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isNavigating ? (
+                <>
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  Analyzing...
+                </>
+              ) : (
+                <>
+                  <Search className="h-3.5 w-3.5" />
+                  Analyze
+                </>
+              )}
             </button>
-          </div>
+          </form>
           <p className="mt-3 text-center text-[11px] tracking-wide text-zinc-600 uppercase">
             Works with any public repository · No sign-up required
           </p>
@@ -579,13 +609,18 @@ export default function Home() {
             </p>
             <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
               <button className="btn-shimmer w-full cursor-pointer rounded-xl bg-gradient-to-r from-[#5BE800] to-emerald-500 px-7 py-3 text-[13px] font-semibold text-zinc-950 transition-all hover:shadow-[0_0_30px_rgba(91,232,0,0.3)] hover:brightness-110 sm:w-auto">
-                Get Started — Free
+                Get Started
               </button>
-              <button className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.03] px-7 py-3 text-[13px] font-medium text-zinc-400 backdrop-blur-sm transition-all hover:border-white/[0.15] hover:bg-white/[0.05] hover:text-zinc-200 sm:w-auto">
+              <a
+                href="https://github.com/uzicodes/ArchLens"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.03] px-7 py-3 text-[13px] font-medium text-zinc-400 backdrop-blur-sm transition-all hover:border-white/[0.15] hover:bg-white/[0.05] hover:text-zinc-200 sm:w-auto"
+              >
                 <Code2 className="h-3.5 w-3.5" />
                 View on GitHub
                 <ArrowUpRight className="h-3 w-3" />
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -618,7 +653,13 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-3">
-            <a href="#" className="rounded-lg p-2 text-zinc-600 transition-all hover:text-[#5BE800] hover:bg-white/[0.03]" aria-label="GitHub">
+            <a
+              href="https://github.com/uzicodes/ArchLens"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg p-2 text-zinc-600 transition-all hover:text-[#5BE800] hover:bg-white/[0.03]"
+              aria-label="GitHub"
+            >
               <Code2 className="h-4 w-4" />
             </a>
             <a href="#" className="rounded-lg p-2 text-zinc-600 transition-all hover:text-[#5BE800] hover:bg-white/[0.03]" aria-label="Community">
