@@ -53,25 +53,40 @@ export class ASTAnalyzer {
             this.processFile(file);
         }
 
+        const connectedNodeIds = new Set<string>();
+        for (const edge of this.edges) {
+            connectedNodeIds.add(edge.source);
+            connectedNodeIds.add(edge.target);
+        }
+
+        const filteredNodes = Array.from(this.nodes.values()).filter(node => 
+            connectedNodeIds.has(node.id)
+        );
+
         return {
-            nodes: Array.from(this.nodes.values()),
+            nodes: filteredNodes,
             edges: this.edges,
         };
+    }
+
+    private stripExtension(filePath: string): string {
+        return filePath.replace(/\.(tsx|ts|jsx|js|css)$/, '');
     }
 
     // The Core AST Extraction Logic
     private processFile(filePath: string) {
         const fileContent = fs.readFileSync(filePath, 'utf-8');
         const relativePath = path.relative(this.rootDir, filePath).replace(/\\/g, '/');
+        const normalizedNodeId = this.stripExtension(relativePath);
 
-        if (!this.nodes.has(relativePath)) {
+        if (!this.nodes.has(normalizedNodeId)) {
             const parts = relativePath.split('/');
             const label = parts.length > 1 
                 ? `${parts[parts.length - 2]}/${parts[parts.length - 1]}` 
                 : path.basename(relativePath);
 
-            this.nodes.set(relativePath, {
-                id: relativePath,
+            this.nodes.set(normalizedNodeId, {
+                id: normalizedNodeId,
                 data: {
                     label: label,
                     type: this.determineNodeType(relativePath)
@@ -97,20 +112,22 @@ export class ASTAnalyzer {
                         const absoluteImportPath = path.resolve(path.dirname(filePath), importPath);
                         relativeImportPath = path.relative(this.rootDir, absoluteImportPath).replace(/\\/g, '/');
                     } else if (importPath.startsWith('@/')) {
-                        relativeImportPath = importPath.replace('@/', 'src/');
+                        const srcPath = path.join(this.rootDir, 'src');
+                        if (fs.existsSync(srcPath)) {
+                            relativeImportPath = importPath.replace('@/', 'src/');
+                        } else {
+                            relativeImportPath = importPath.replace('@/', '');
+                        }
                     }
 
-                    if (!path.extname(relativeImportPath)) {
-                        relativeImportPath += '.ts';
-                    }
-
-                    const edgeId = `e_${relativePath}-${relativeImportPath}`;
+                    const normalizedTargetId = this.stripExtension(relativeImportPath);
+                    const edgeId = `e_${normalizedNodeId}-${normalizedTargetId}`;
 
                     if (!this.edges.some(e => e.id === edgeId)) {
                         this.edges.push({
                             id: edgeId,
-                            source: relativePath,
-                            target: relativeImportPath
+                            source: normalizedNodeId,
+                            target: normalizedTargetId
                         });
                     }
                 }

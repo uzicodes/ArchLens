@@ -13,7 +13,7 @@ import {
     Handle
 } from '@xyflow/react';
 import dagre from 'dagre';
-import { Shield, Database, Layout, Server, AlertCircle, Loader2 } from 'lucide-react';
+import { Shield, Database, Layout, Server, AlertCircle, Loader2, FileCode2 } from 'lucide-react';
 
 import '@xyflow/react/dist/style.css';
 
@@ -25,11 +25,11 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
     dagreGraph.setGraph({ rankdir: 'TB', nodesep: 70, ranksep: 100 });
 
     nodes.forEach((node) => {
-        dagreGraph.setNode(node.id, { width: 180, height: 60 });
+        dagreGraph.setNode(node.id, { width: 220, height: 72 });
     });
 
     edges.forEach((edge) => {
-        dagreGraph.setEdge(edge.source, { id: edge.id, target: edge.target });
+        dagreGraph.setEdge(edge.source, edge.target);
     });
 
     dagre.layout(dagreGraph);
@@ -51,29 +51,42 @@ const getLayoutedElements = (nodes: any[], edges: any[]) => {
 };
 
 // Custom Node Component
-const NodeWrapper = ({ data }: any) => {
+const FileNode = ({ data }: any) => {
     const getIcon = (type: string) => {
         switch (type) {
             case 'frontend': return <Layout className="w-4 h-4 text-emerald-400" />;
             case 'auth': return <Shield className="w-4 h-4 text-amber-400" />;
             case 'backend': return <Server className="w-4 h-4 text-indigo-400" />;
             case 'database': return <Database className="w-4 h-4 text-cyan-400" />;
-            default: return <AlertCircle className="w-4 h-4 text-slate-400" />;
+            default: return <FileCode2 className="w-4 h-4 text-slate-400" />;
         }
     };
 
+    const parts = data.label ? data.label.split('/') : ['Unknown'];
+    const fileName = parts.pop();
+    const directory = parts.length > 0 ? parts.join('/') + '/' : '';
+
     return (
-        <div className="px-4 py-3 bg-slate-900 border border-white/10 rounded-xl shadow-xl flex items-center gap-3 min-w-[180px]">
+        <div className={`p-4 bg-slate-900/80 backdrop-blur-sm border ${data.accentBorder || 'border-white/10'} rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] flex items-center gap-3 min-w-[200px]`}>
             <Handle type="target" position={Position.Top} className="!opacity-0" />
-            {getIcon(data.type)}
-            <span className="text-sm font-medium text-slate-200">{data.label}</span>
+            <div className="flex-shrink-0 bg-slate-800 p-2 rounded-lg border border-white/5">
+                {getIcon(data.type)}
+            </div>
+            <div className="flex flex-col justify-center overflow-hidden">
+                <span className="text-[10px] uppercase font-semibold text-slate-500 tracking-wider truncate">
+                    {directory || 'ROOT'}
+                </span>
+                <span className="text-sm font-bold text-slate-200 truncate">
+                    {fileName}
+                </span>
+            </div>
             <Handle type="source" position={Position.Bottom} className="!opacity-0" />
         </div>
     );
 };
 
 function DashboardContent() {
-    const nodeTypes = useMemo(() => ({ default: NodeWrapper }), []);
+    const nodeTypes = useMemo(() => ({ default: FileNode }), []);
     const searchParams = useSearchParams();
     const repoUrl = searchParams.get('repo');
 
@@ -100,8 +113,23 @@ function DashboardContent() {
                 const json = await response.json();
 
                 if (json.success) {
+                    const processedNodes = json.data.nodes.map((node: any) => {
+                        let accentBorder = 'border-slate-600/30';
+                        if (node.id.includes('layout')) {
+                            accentBorder = 'border-blue-500/50';
+                        } else if (node.id.endsWith('page')) {
+                            accentBorder = 'border-green-500/50';
+                        } else if (node.id.includes('components')) {
+                            accentBorder = 'border-purple-500/50';
+                        }
+                        return {
+                            ...node,
+                            data: { ...node.data, accentBorder }
+                        };
+                    });
+
                     const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
-                        json.data.nodes,
+                        processedNodes,
                         json.data.edges
                     );
                     setNodes(layoutedNodes);
@@ -150,11 +178,16 @@ function DashboardContent() {
                     onNodesChange={onNodesChange}
                     onEdgesChange={onEdgesChange}
                     nodeTypes={nodeTypes}
+                    defaultEdgeOptions={{
+                        type: 'default',
+                        animated: true,
+                        style: { stroke: '#94a3b8', strokeWidth: 2 }
+                    }}
                     colorMode="dark"
                     fitView
                 >
-                    <Background variant={BackgroundVariant.Dots} gap={16} size={1} color="#334155" />
-                    <Controls />
+                    <Background variant={BackgroundVariant.Dots} gap={24} size={1} color="#334155" />
+                    <Controls showInteractive={false} className="bg-slate-900 border-white/10" />
                 </ReactFlow>
             </main>
         </div>
