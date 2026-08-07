@@ -94,6 +94,7 @@ function DashboardContent() {
     const [nodes, setNodes, onNodesChange] = useNodesState<any>([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState<any>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [summary, setSummary] = useState<string | null>(null);
 
     // Fetch real AST data from the API
     useEffect(() => {
@@ -134,6 +135,9 @@ function DashboardContent() {
                     );
                     setNodes(layoutedNodes);
                     setEdges(layoutedEdges);
+                    if (json.summary) {
+                        setSummary(json.summary);
+                    }
                 }
             } catch (error) {
                 console.error('Failed to fetch architecture:', error);
@@ -162,12 +166,30 @@ function DashboardContent() {
                     <p className="text-xs text-slate-400 mt-1 truncate" title={repoUrl || ''}>Repository: {repoUrl || 'None Provided'}</p>
                 </div>
 
-                <div className="p-4 bg-white/5 border border-white/5 rounded-xl">
+                <div className="p-4 bg-white/5 border border-white/5 rounded-xl flex-shrink-0">
                     <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400">Status</h3>
                     <p className="text-sm text-emerald-400 mt-2 flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                         Live Graph Rendered
                     </p>
+                </div>
+
+                <div className="p-4 bg-white/5 border border-white/5 rounded-xl flex-1 overflow-y-auto">
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">
+                        AI Architecture Analysis
+                    </h3>
+                    {summary ? (
+                        <p className="text-sm text-slate-300 leading-relaxed">
+                            {summary}
+                        </p>
+                    ) : (
+                        <div className="space-y-2 mt-4">
+                            <div className="h-4 bg-slate-700/50 rounded animate-pulse w-full"></div>
+                            <div className="h-4 bg-slate-700/50 rounded animate-pulse w-5/6"></div>
+                            <div className="h-4 bg-slate-700/50 rounded animate-pulse w-4/6"></div>
+                            <p className="text-xs text-slate-500 mt-4 animate-pulse">Generating AI insights...</p>
+                        </div>
+                    )}
                 </div>
             </aside>
 
