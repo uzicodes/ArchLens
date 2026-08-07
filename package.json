@@ -10,5 +10,9 @@
     "dev": "npm run dev --workspaces --if-present",
     "build": "npm run build --workspaces --if-present",
     "start": "npm run start --workspaces --if-present"
+  },
+  "dependencies": {
+    "@google/genai": "^2.16.0",
+    "dotenv": "^17.4.2"
   }
 }
