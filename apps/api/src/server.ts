@@ -1,6 +1,9 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import { ASTAnalyzer } from './analyzer/parser';
+import { generateArchitectureSummary } from './ai/gemini';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
@@ -35,10 +38,17 @@ app.post('/api/analyze', async (req, res) => {
         const analyzer = new ASTAnalyzer(tempPath);
         const result = analyzer.analyze();
 
+        let aiSummary = "AI integration pending. Repository successfully cloned and mapped!";
+        try {
+            aiSummary = await generateArchitectureSummary(result.nodes, result.edges);
+        } catch (summaryError) {
+            console.error("Failed to generate AI summary:", summaryError);
+        }
+
         res.status(200).json({
             success: true,
             data: result,
-            summary: "AI integration pending. Repository successfully cloned and mapped!"
+            summary: aiSummary
         });
     } catch (error) {
         console.error('Analysis failed:', error);
