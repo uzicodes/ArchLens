@@ -65,10 +65,15 @@ export class ASTAnalyzer {
         const relativePath = path.relative(this.rootDir, filePath).replace(/\\/g, '/');
 
         if (!this.nodes.has(relativePath)) {
+            const parts = relativePath.split('/');
+            const label = parts.length > 1 
+                ? `${parts[parts.length - 2]}/${parts[parts.length - 1]}` 
+                : path.basename(relativePath);
+
             this.nodes.set(relativePath, {
                 id: relativePath,
                 data: {
-                    label: path.basename(relativePath),
+                    label: label,
                     type: this.determineNodeType(relativePath)
                 }
             });
@@ -85,9 +90,15 @@ export class ASTAnalyzer {
             if (ts.isImportDeclaration(node)) {
                 const importPath = (node.moduleSpecifier as ts.StringLiteral).text;
 
-                if (importPath.startsWith('.')) {
-                    const absoluteImportPath = path.resolve(path.dirname(filePath), importPath);
-                    let relativeImportPath = path.relative(this.rootDir, absoluteImportPath).replace(/\\/g, '/');
+                if (importPath.startsWith('.') || importPath.startsWith('@/')) {
+                    let relativeImportPath = '';
+                    
+                    if (importPath.startsWith('.')) {
+                        const absoluteImportPath = path.resolve(path.dirname(filePath), importPath);
+                        relativeImportPath = path.relative(this.rootDir, absoluteImportPath).replace(/\\/g, '/');
+                    } else if (importPath.startsWith('@/')) {
+                        relativeImportPath = importPath.replace('@/', 'src/');
+                    }
 
                     if (!path.extname(relativeImportPath)) {
                         relativeImportPath += '.ts';
@@ -95,11 +106,13 @@ export class ASTAnalyzer {
 
                     const edgeId = `e_${relativePath}-${relativeImportPath}`;
 
-                    this.edges.push({
-                        id: edgeId,
-                        source: relativePath,
-                        target: relativeImportPath
-                    });
+                    if (!this.edges.some(e => e.id === edgeId)) {
+                        this.edges.push({
+                            id: edgeId,
+                            source: relativePath,
+                            target: relativeImportPath
+                        });
+                    }
                 }
             }
         });
